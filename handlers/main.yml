@@ -1,0 +1,11 @@
+---
+- name: ntp | systemctl restart chrony.service
+  service:
+    name: "chrony.service"
+    state: "restarted"
+    enabled: true
+  become: true
+  changed_when: false
+  register: restart_chrony_service
+  failed_when: restart_chrony_service.failed
+...

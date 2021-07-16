@@ -1,11 +1,21 @@
 ---
-- name: ntp | systemctl restart chrony.service
+- name: systemctl restart service
   service:
-    name: "chrony.service"
+    name: "{{ item }}"
     state: "restarted"
-    enabled: true
   become: true
   changed_when: false
-  register: restart_chrony_service
-  failed_when: restart_chrony_service.failed
+  register: restart_service
+  failed_when: restart_service.failed
+  loop: "{{ systemd_service_name }}"
+
+- name: systemctl stop service
+  service:
+    name: "{{ item }}"
+    state: "stopped"
+  become: true
+  changed_when: false
+  register: stop_service
+  failed_when: stop_service.failed
+  loop: "{{ systemd_service_name }}"
 ...

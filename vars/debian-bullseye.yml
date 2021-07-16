@@ -1,2 +1,4 @@
 ---
+systemd_service_name:
+  - chrony.service
 ...

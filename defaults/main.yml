@@ -1,3 +1,4 @@
 ---
+service_name: "chrony"
 ntp_allowed_cidr: "192.168.21.0/24"
 ...

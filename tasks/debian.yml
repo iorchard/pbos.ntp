@@ -16,7 +16,7 @@
     mode: "0644"
   become: true
   notify:
-    - ntp | systemctl restart chrony.service
+    - systemctl restart service
   when: inventory_hostname in groups['controller']
 
 - name: Debian | Configure ntp client on others
@@ -28,6 +28,6 @@
     mode: "0644"
   become: true
   notify:
-    - ntp | systemctl restart chrony.service
+    - systemctl restart service
   when: inventory_hostname not in groups['controller']
 ...

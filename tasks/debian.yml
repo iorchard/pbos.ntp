@@ -1,11 +1,16 @@
 ---
 - name: Debian | Install ntp package
   ansible.builtin.apt:
-    name: "chrony"
-    state: present
+    name: "{{ item }}"
+    state: "{{ apt_state }}"
     update_cache: true
     allow_unauthenticated: false
+  register: _apt
+  until: not _apt.failed
+  retries: 3
+  delay: 3
   become: true
+  loop: "{{ packages }}"
 
 - name: Debian | Configure ntp server on controllers
   ansible.builtin.template:

@@ -3,19 +3,23 @@
   service:
     name: "{{ item }}"
     state: "restarted"
+  register: _restart_service
+  until: _restart_service.state == "started"
+  retries: 3
+  delay: 3
   become: true
   changed_when: false
-  register: restart_service
-  failed_when: restart_service.failed
   loop: "{{ systemd_service_name }}"
 
 - name: systemctl stop service
   service:
     name: "{{ item }}"
     state: "stopped"
+  register: _stop_service
+  until: _stop_service.state == "stopped"
+  retries: 3
+  delay: 3
   become: true
   changed_when: false
-  register: stop_service
-  failed_when: stop_service.failed
   loop: "{{ systemd_service_name }}"
 ...

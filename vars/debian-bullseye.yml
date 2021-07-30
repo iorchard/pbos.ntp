@@ -1,4 +1,8 @@
 ---
+apt_state: "latest"
+packages:
+  - chrony
+
 systemd_service_name:
   - chrony.service
 ...

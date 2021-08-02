@@ -22,4 +22,15 @@
     state: absent
   loop: "{{ packages }}"
   become: true
+
+- name: Delete | remove directory
+  tags:
+    - ntp
+    - pbos-infra
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/chrony
+  become: true
 ...

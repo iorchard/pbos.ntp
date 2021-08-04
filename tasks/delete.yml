@@ -11,13 +11,12 @@
     - pbos-infra
   ansible.builtin.import_tasks: "stop.yml"
 
-- name: Delete | purge packages
+- name: Delete | remove packages
   tags:
     - ntp
     - pbos-infra
   ansible.builtin.apt:
     name: "{{ item }}"
-    purge: true
     state: absent
   loop: "{{ packages }}"
   become: true

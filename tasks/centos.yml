@@ -1,5 +1,5 @@
 ---
-- name: Ubuntu | Install ntp package
+- name: CentOS | Install ntp package
   ansible.builtin.package:
     name: "{{ item }}"
     state: "{{ pkg_state }}"
@@ -10,7 +10,7 @@
   become: true
   loop: "{{ packages }}"
 
-- name: Ubuntu | Configure ntp server on controllers
+- name: CentOS | Configure ntp server on controllers
   ansible.builtin.template:
     dest: "{{ item.dest }}"
     src: "{{ ansible_distribution | lower }}{{ item.dest + '.j2' }}"
@@ -24,7 +24,7 @@
     - systemctl restart service
   when: inventory_hostname in groups['controller']
 
-- name: Ubuntu | Configure ntp client on others
+- name: CentOS | Configure ntp client on others
   ansible.builtin.template:
     dest: "{{ item.dest }}"
     src: "{{ ansible_distribution | lower }}{{ item.dest + '.client.j2' }}"

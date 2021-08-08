@@ -1,12 +1,10 @@
 ---
 - name: Debian | Install ntp package
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name: "{{ item }}"
-    state: "{{ apt_state }}"
-    update_cache: true
-    allow_unauthenticated: false
-  register: _apt
-  until: not _apt.failed
+    state: "{{ pkg_state }}"
+  register: _pkg
+  until: not _pkg.failed
   retries: 3
   delay: 3
   become: true
@@ -14,24 +12,28 @@
 
 - name: Debian | Configure ntp server on controllers
   ansible.builtin.template:
-    dest: "/etc/chrony/chrony.conf"
-    src: "etc/chrony/chrony.conf.j2"
+    dest: "{{ item.dest }}"
+    src: "{{ ansible_distribution | lower }}{{ item.dest + '.j2' }}"
     owner: "root"
     group: "root"
     mode: "0644"
   become: true
+  loop: "{{ service_conf }}"
+  changed_when: true
   notify:
     - systemctl restart service
   when: inventory_hostname in groups['controller']
 
 - name: Debian | Configure ntp client on others
   ansible.builtin.template:
-    dest: "/etc/chrony/chrony.conf"
-    src: "etc/chrony/chrony.conf.client.j2"
+    dest: "{{ item.dest }}"
+    src: "{{ ansible_distribution | lower }}{{ item.dest + '.client.j2' }}"
     owner: "root"
     group: "root"
     mode: "0644"
   become: true
+  loop: "{{ service_conf }}"
+  changed_when: true
   notify:
     - systemctl restart service
   when: inventory_hostname not in groups['controller']

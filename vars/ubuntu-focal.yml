@@ -1,7 +1,10 @@
 ---
-apt_state: "latest"
+pkg_state: "latest"
 packages:
   - chrony
+
+service_conf:
+  - {dest: "/etc/chrony/chrony.conf"}
 
 systemd_service_name:
   - chrony.service

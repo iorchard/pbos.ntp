@@ -4,8 +4,8 @@ packages:
   - chrony
 
 service_conf:
-  - {dest: "/etc/chrony/chrony.conf"}
+  - {dest: "/etc/chrony.conf"}
 
 systemd_service_name:
-  - chrony.service
+  - chronyd.service
 ...

@@ -1,5 +1,5 @@
 ---
-- name: CentOS | Install ntp package
+- name: Rocky Linux | Install ntp package
   ansible.builtin.package:
     name: "{{ item }}"
     state: "{{ pkg_state }}"
@@ -10,7 +10,7 @@
   become: true
   loop: "{{ packages }}"
 
-- name: CentOS | Configure ntp server on controllers
+- name: Rocky Linux | Configure ntp server on controllers
   ansible.builtin.template:
     dest: "{{ item.dest }}"
     src: "{{ ansible_os_family | lower }}{{ item.dest + '.j2' }}"
@@ -24,7 +24,7 @@
     - systemctl restart service
   when: inventory_hostname in groups['controller']
 
-- name: CentOS | Configure ntp client on others
+- name: Rocky Linux | Configure ntp client on others
   ansible.builtin.template:
     dest: "{{ item.dest }}"
     src: "{{ ansible_os_family | lower }}{{ item.dest + '.client.j2' }}"

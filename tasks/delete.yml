@@ -15,10 +15,9 @@
   tags:
     - ntp
     - pbos-infra
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: absent
-    purge: true
   loop: "{{ packages }}"
   become: true
 

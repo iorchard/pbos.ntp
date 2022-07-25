@@ -1,5 +1,5 @@
-{% for s in groups['controller'] %}
-server {{ s }} iburst
+{% for h in groups['controller'] %}
+server {{ hostvars[h].ansible_host }} iburst
 {% endfor %}
 driftfile /var/lib/chrony/chrony.drift
 logdir /var/log/chrony

@@ -1,8 +1,8 @@
-initstepslew 1 {% for s in groups['controller'] %}{% if inventory_hostname != s %}{{ s }} {% endif %}{% endfor %}
+initstepslew 1 {% for h in groups['controller'] %}{% if inventory_hostname != h %}{{ hostvars[h].ansible_host }} {% endif %}{% endfor %}
 
-{% for s in groups['controller'] %}
-{% if inventory_hostname != s %}
-server {{ s }}
+{% for h in groups['controller'] %}
+{% if inventory_hostname != h %}
+server {{ hostvars[h].ansible_host }}
 {% endif %}
 {% endfor %}
 driftfile /var/lib/chrony/chrony.drift
